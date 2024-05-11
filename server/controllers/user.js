@@ -33,21 +33,50 @@ export const deleteUser = async(req, res, next) => {
 }
 
 export const getUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id)
+        res.status(200).json(user)
+    } catch (err) {
+       next(err) 
+    }
     
 }
 
 export const subscribeUser = async (req, res, next) => {
-    
+    try {
+        await User.findById(req.params.id, {
+            $push:{subscribeUsers: req.params.id}
+        })
+        await findByIdAndUpdate(req.params.id, {
+            $inc:{subscribets: 1}
+        })
+        res.status(200).json("Subscription successfull")
+        
+    } catch (err) {
+       next(err) 
+    }
 }
 
 export const unsubscribeUser = async (req, res, next) => {
-    
+    try {
+        
+    } catch (err) {
+       next(err) 
+    }
 }
 
 export const like = async (req, res, next) => {
-    
+    try {
+        
+    } catch (err) {
+       next(err) 
+    }
 }
 
 export const dislike = async (req, res, next) => {
-    
+    try {
+        
+    } catch (err) {
+       next(err) 
+    }
 }
