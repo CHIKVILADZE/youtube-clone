@@ -2,6 +2,7 @@ import express from  'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoute from './routes/users.js'
+import cookieParser from 'cookie-parser';
 import videoRoute from './routes/videos.js'
 import commentRoute from './routes/comments.js'
 import authRoute from './routes/auth.js'
@@ -20,10 +21,12 @@ const connect = () => {
 }
 
 app.use(express.json())
+app.use(cookieParser())
 app.use("/api/users", userRoute)
 app.use("/api/comments", commentRoute)
 app.use("/api/videos", videoRoute)
 app.use("/api/auth", authRoute)
+
 
 app.use((err, req, res, next) => {
     const status = err.status || 500;
