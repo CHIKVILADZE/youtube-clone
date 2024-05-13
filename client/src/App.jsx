@@ -1,13 +1,32 @@
-import { useState } from "react";
-import Home from "./pages/Home";
+import { createGlobalStyle } from "styled-components";
+
+import styled from "styled-components";
+import Menu from "./components/Menu";
+import Navbar from "./components/Navbar";
+import { BrowserRouter } from "react-router-dom";
+
+const Container = styled.div`
+  display: flex;
+  margin: 0;
+  overflow: hidden;
+  border: 4px solid red;
+`;
+
+const Main = styled.div`
+  flex: 7;
+`;
+
+const Wrapper = styled.div``;
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <Home />
-    </>
+    <Container>
+      <Menu />
+      <Main>
+        <Navbar />
+        <Wrapper>Video Cards</Wrapper>
+      </Main>
+    </Container>
   );
 }
 
