@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { darkTheme, lightTheme } from "./utils/Theme";
 import { useState } from "react";
+import Home from "./pages/Home";
+import Video from "./pages/Video";
 
 const GlobalStyle = createGlobalStyle`
   html, body {
@@ -40,9 +42,9 @@ function App() {
             <Wrapper>
               <Routes>
                 <Route path="/">
-                  <Route index element={Home} />
+                  <Route index element={<Home />} />
                   <Route path="video">
-                    <Route path=":id" element={video} />
+                    <Route path=":id" element={<Video />} />
                   </Route>
                 </Route>
               </Routes>
