@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -27,9 +28,7 @@ const ChannelImg = styled.img`
   background-color: #999;
 `;
 
-const Text = styled.div`
-  border: 2px solid red;
-`;
+const Text = styled.div``;
 
 const Title = styled.h1`
   font-size: 16px;
@@ -50,16 +49,18 @@ const Info = styled.div`
 
 export default function Card() {
   return (
-    <Container>
-      <Img src="https://static01.nyt.com/images/2021/06/14/business/13bizsky-ontech-print/08OnTech-YouTube-videoSixteenByNineJumbo1600.jpg" />
-      <Details>
-        <ChannelImg src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4=" />
-        <Text>
-          <Title>Test Video</Title>
-          <ChannelName>Dev</ChannelName>
-          <Info>435,454 views • 1 day ago</Info>
-        </Text>
-      </Details>
-    </Container>
+    <Link to="/video/test" style={{ textDecoration: "none" }}>
+      <Container>
+        <Img src="https://static01.nyt.com/images/2021/06/14/business/13bizsky-ontech-print/08OnTech-YouTube-videoSixteenByNineJumbo1600.jpg" />
+        <Details>
+          <ChannelImg src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4=" />
+          <Text>
+            <Title>Test Video</Title>
+            <ChannelName>Dev</ChannelName>
+            <Info>435,454 views • 1 day ago</Info>
+          </Text>
+        </Details>
+      </Container>
+    </Link>
   );
 }
