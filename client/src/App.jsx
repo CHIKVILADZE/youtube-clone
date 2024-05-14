@@ -1,13 +1,8 @@
-import {
-  ThemeConsumer,
-  ThemeProvider,
-  createGlobalStyle,
-} from "styled-components";
-
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 import Menu from "./components/Menu";
 import Navbar from "./components/Navbar";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { darkTheme, lightTheme } from "./utils/Theme";
 import { useState } from "react";
 
@@ -37,33 +32,23 @@ function App() {
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
-        <GlobalStyle />
-        <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
-        <Main>
-          <Navbar />
-          <Wrapper>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-          </Wrapper>
-        </Main>
+        <BrowserRouter>
+          <GlobalStyle />
+          <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Main>
+            <Navbar />
+            <Wrapper>
+              <Routes>
+                <Route path="/">
+                  <Route index element={Home} />
+                  <Route path="video">
+                    <Route path=":id" element={video} />
+                  </Route>
+                </Route>
+              </Routes>
+            </Wrapper>
+          </Main>
+        </BrowserRouter>
       </Container>
     </ThemeProvider>
   );
