@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
   html, body {
     margin: 0;
     padding: 0;
-    font-family: "Radio Canada Big", sans-serif;
+    font-family: "Roboto", sans-serif;
   }
 `;
 

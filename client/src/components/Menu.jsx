@@ -37,11 +37,12 @@ const Logo = styled.div`
   align-items: center;
   gap: 5px;
   font-weight: bold;
+  margin-top: 5px;
   margin-bottom: 10px;
 `;
 
 const Img = styled.img`
-  height: 10px;
+  height: 30px;
 `;
 
 const Item = styled.div`

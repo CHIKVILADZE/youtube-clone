@@ -27,20 +27,33 @@ const ChannelImg = styled.img`
   background-color: #999;
 `;
 
-const Text = styled.div``;
+const Text = styled.div`
+  border: 2px solid red;
+`;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
+`;
 
-const ChannelName = styled.h2``;
+const ChannelName = styled.h2`
+  font-size: 14px;
+  color: ${({ theme }) => theme.textSoft};
+  margin: 9px 0px;
+`;
 
-const Info = styled.div``;
+const Info = styled.div`
+  font-size: 14px;
+  color: ${({ theme }) => theme.textSoft};
+`;
 
 export default function Card() {
   return (
     <Container>
       <Img src="https://static01.nyt.com/images/2021/06/14/business/13bizsky-ontech-print/08OnTech-YouTube-videoSixteenByNineJumbo1600.jpg" />
       <Details>
-        <ChannelImg src="path_to_channel_image" />
+        <ChannelImg src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4=" />
         <Text>
           <Title>Test Video</Title>
           <ChannelName>Dev</ChannelName>
