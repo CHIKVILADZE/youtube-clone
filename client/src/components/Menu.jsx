@@ -20,16 +20,16 @@ import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightne
 
 const Container = styled.div`
   flex: 1;
-  background-color: ${({ theme }) => theme.bg};
+  background-color: ${({ theme }) => theme.bgLighter};
   height: 100vh;
   color: ${({ theme }) => theme.text};
-  font-size: 18px;
+  font-size: 14px;
   position: sticky;
   top: 0;
 `;
 
 const Wrapper = styled.div`
-  padding: 18px 26px;
+  padding: 5px 26px;
 `;
 
 const Logo = styled.div`
@@ -37,11 +37,11 @@ const Logo = styled.div`
   align-items: center;
   gap: 5px;
   font-weight: bold;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 `;
 
 const Img = styled.img`
-  height: 25px;
+  height: 10px;
 `;
 
 const Item = styled.div`
@@ -49,11 +49,11 @@ const Item = styled.div`
   align-items: center;
   gap: 20px;
   cursor: pointer;
-  padding: 7.5px 0px;
+  padding: 2px 0px;
 `;
 
 const Hr = styled.hr`
-  margin: 15px 0px;
+  margin: 10px 0px;
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
@@ -69,7 +69,7 @@ const Button = styled.button`
   color: #3ae6ff;
   border-radius: 3px;
   font-weight: 500;
-  margin-top: 10px;
+  margin-top: 5px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -77,10 +77,10 @@ const Button = styled.button`
 `;
 
 const Title = styled.h2`
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 500;
   color: #aaaaaa;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 function Menu({ darkMode, setDarkMode }) {
