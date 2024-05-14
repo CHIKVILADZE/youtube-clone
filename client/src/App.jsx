@@ -1,9 +1,15 @@
-import { createGlobalStyle } from "styled-components";
+import {
+  ThemeConsumer,
+  ThemeProvider,
+  createGlobalStyle,
+} from "styled-components";
 
 import styled from "styled-components";
 import Menu from "./components/Menu";
 import Navbar from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
+import { darkTheme, lightTheme } from "./utils/Theme";
+import { useState } from "react";
 
 const GlobalStyle = createGlobalStyle`
   html, body {
@@ -20,41 +26,46 @@ const Container = styled.div`
 
 const Main = styled.div`
   flex: 7;
-  background-color: #181818;
+  background-color: ${({ theme }) => theme.bg};
 `;
 
 const Wrapper = styled.div``;
 
 function App() {
-  return (
-    <Container>
-      <GlobalStyle />
+  const [darkMode, setDarkMode] = useState(true);
 
-      <Menu />
-      <Main>
-        <Navbar />
-        <Wrapper>
-          <h1>Hello</h1>
-          <h1>Hello</h1>
-          <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>{" "}
-          <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>{" "}
-          <h1>Hello</h1> <h1>Hello</h1>
-          <h1>Hello</h1>
-          <h1>Hello</h1>
-          <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>{" "}
-          <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>{" "}
-          <h1>Hello</h1> <h1>Hello</h1>
-          <h1>Hello</h1>
-          <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>{" "}
-          <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>{" "}
-          <h1>Hello</h1> <h1>Hello</h1>
-          <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>{" "}
-          <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>{" "}
-          <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>
-          <h1>Hello</h1>
-        </Wrapper>
-      </Main>
-    </Container>
+  return (
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <Container>
+        <GlobalStyle />
+        <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+        <Main>
+          <Navbar />
+          <Wrapper>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1> <h1>Hello</h1> <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+          </Wrapper>
+        </Main>
+      </Container>
+    </ThemeProvider>
   );
 }
 

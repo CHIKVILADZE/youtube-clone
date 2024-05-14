@@ -20,10 +20,10 @@ import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightne
 
 const Container = styled.div`
   flex: 1;
-  background-color: #202020;
+  background-color: ${({ theme }) => theme.bg};
   height: 100vh;
-  color: white;
-  font-size: 14px;
+  color: ${({ theme }) => theme.text};
+  font-size: 18px;
   position: sticky;
   top: 0;
 `;
@@ -54,7 +54,7 @@ const Item = styled.div`
 
 const Hr = styled.hr`
   margin: 15px 0px;
-  border: 0.5px solid #373737;
+  border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
 const Login = styled.div`
@@ -76,7 +76,14 @@ const Button = styled.button`
   gap: 5px;
 `;
 
-function Menu() {
+const Title = styled.h2`
+  font-size: 18px;
+  font-weight: 500;
+  color: #aaaaaa;
+  margin-bottom: 20px;
+`;
+
+function Menu({ darkMode, setDarkMode }) {
   return (
     <Container>
       <Wrapper>
@@ -114,6 +121,7 @@ function Menu() {
           </Button>
         </Login>
         <Hr />
+        <Title>Best of ChikvilaTube</Title>
         <Item>
           <LibraryMusicOutlinedIcon />
           Music
