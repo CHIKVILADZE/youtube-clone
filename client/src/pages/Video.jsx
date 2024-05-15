@@ -4,10 +4,12 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ReplyIcon from "@mui/icons-material/Reply";
 import AddTaskIcon from "@mui/icons-material/AddTask";
+import Comments from "../components/Comments";
 
 const Container = styled.div`
   display: flex;
   gap: 24px;
+  margin-left: 100px;
 `;
 const Content = styled.div`
   flex: 5;
@@ -57,6 +59,52 @@ const Button = styled.div`
   cursor: pointer;
 `;
 
+const Channel = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ChannelInfo = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
+const Subscribe = styled.button`
+  background-color: #cc1a00;
+  font-weight: 500;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  height: max-content;
+  padding: 10px 20px;
+  cursor: pointer;
+`;
+
+const Image = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid black;
+`;
+
+const ChannelDetail = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: ${({ theme }) => theme.text};
+`;
+
+const ChannelName = styled.span`
+  font-weight: 500;
+`;
+const ChannelCounter = styled.span`
+  margin-top: 5px;
+  color: ${({ theme }) => theme.textSoft};
+  font-size: 12px;
+`;
+const Description = styled.p`
+  font-size: 14px;
+`;
+
 export default function Video() {
   return (
     <Container>
@@ -67,10 +115,10 @@ export default function Video() {
             height="720"
             src="https://www.youtube.com/embed/B5AowmRgHV0?list=RDGMEMHDXYb1_DDSgDsobPsOFxpAVMB5AowmRgHV0"
             title="KayaKata - Massaia"
-            frameborder="0"
+            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
           ></iframe>
         </VideoWrapper>
         <Title>Test Video</Title>
@@ -95,6 +143,24 @@ export default function Video() {
           </Buttons>
         </Details>
         <Hr />
+        <Channel>
+          <ChannelInfo>
+            <Image src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4=" />
+            <ChannelDetail>
+              <ChannelName>Chikvila Dev</ChannelName>
+              <ChannelCounter>200K Subscribers</ChannelCounter>
+              <Description>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
+                minus porro ipsam unde autem qui et blanditiis aspernatur quod
+                consectetur accusantium, ipsum eius. Fugiat natus sit suscipit
+                odio earum veniam!
+              </Description>
+            </ChannelDetail>
+          </ChannelInfo>
+          <Subscribe>Subscribe</Subscribe>
+        </Channel>
+        <Hr />
+        <Comments />
       </Content>
       <Recoomendations>Recommendations</Recoomendations>
     </Container>
