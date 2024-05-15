@@ -3,22 +3,26 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 360px;
-  margin-bottom: 45px;
+  width: ${({ type }) => type !== "sm" && "360px"};
+  margin-bottom: ${({ type }) => (type === "sm" ? "20px" : "45px")};
   cursor: pointer;
+  display: ${({ type }) => type === "sm" && "flex"};
+  gap: 5px;
 `;
 
 const Img = styled.img`
   width: 100%;
-  height: 202px;
+  height: ${({ type }) => (type === "sm" ? "130px" : "202px")};
   background-color: #999;
   border-radius: 5px;
+  flex: 1;
 `;
 
 const Details = styled.div`
   display: flex;
-  margin-top: 16px;
+  margin-top: ${({ type }) => type !== "sm" && "16px"};
   gap: 12px;
+  flex: 1;
 `;
 
 const ChannelImg = styled.img`
@@ -26,6 +30,7 @@ const ChannelImg = styled.img`
   height: 36px;
   border-radius: 50%;
   background-color: #999;
+  display: ${({ type }) => type === "sm" && "none"};
 `;
 
 const Text = styled.div``;
@@ -47,16 +52,22 @@ const Info = styled.div`
   color: ${({ theme }) => theme.textSoft};
 `;
 
-export default function Card() {
+export default function Card({ type }) {
   return (
     <Link to="/video/test" style={{ textDecoration: "none" }}>
-      <Container>
-        <Img src="https://static01.nyt.com/images/2021/06/14/business/13bizsky-ontech-print/08OnTech-YouTube-videoSixteenByNineJumbo1600.jpg" />
-        <Details>
-          <ChannelImg src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4=" />
+      <Container type={type}>
+        <Img
+          type={type}
+          src="https://static01.nyt.com/images/2021/06/14/business/13bizsky-ontech-print/08OnTech-YouTube-videoSixteenByNineJumbo1600.jpg"
+        />
+        <Details type={type}>
+          <ChannelImg
+            type={type}
+            src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4="
+          />
           <Text>
             <Title>Test Video</Title>
-            <ChannelName>Dev</ChannelName>
+            <ChannelName>Chikvila</ChannelName>
             <Info>435,454 views • 1 day ago</Info>
           </Text>
         </Details>

@@ -5,11 +5,12 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ReplyIcon from "@mui/icons-material/Reply";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import Comments from "../components/Comments";
+import Card from "../components/Card";
 
 const Container = styled.div`
   display: flex;
   gap: 24px;
-  margin-left: 100px;
+  margin-left: 10px;
 `;
 const Content = styled.div`
   flex: 5;
@@ -162,7 +163,19 @@ export default function Video() {
         <Hr />
         <Comments />
       </Content>
-      <Recoomendations>Recommendations</Recoomendations>
+      <Recoomendations>
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+      </Recoomendations>
     </Container>
   );
 }
