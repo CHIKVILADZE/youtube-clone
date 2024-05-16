@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { format } from "timeago.js";
 
 const Container = styled.div`
   width: ${({ type }) => type !== "sm" && "360px"};
@@ -52,23 +53,22 @@ const Info = styled.div`
   color: ${({ theme }) => theme.textSoft};
 `;
 
-export default function Card({ type }) {
+export default function Card({ type, video }) {
   return (
     <Link to="/video/test" style={{ textDecoration: "none" }}>
       <Container type={type}>
-        <Img
-          type={type}
-          src="https://static01.nyt.com/images/2021/06/14/business/13bizsky-ontech-print/08OnTech-YouTube-videoSixteenByNineJumbo1600.jpg"
-        />
+        <Img type={type} src={video.imgUrl} />
         <Details type={type}>
           <ChannelImg
             type={type}
             src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4="
           />
           <Text>
-            <Title>Test Video</Title>
+            <Title>{video.title}</Title>
             <ChannelName>Chikvila</ChannelName>
-            <Info>435,454 views • 1 day ago</Info>
+            <Info>
+              {video.views} views • {format(video.createdAt)}
+            </Info>
           </Text>
         </Details>
       </Container>
