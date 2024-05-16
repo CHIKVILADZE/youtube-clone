@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import API from "../utils/API";
+import { useDispatch } from "react-redux";
+import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 
 const Container = styled.div`
   display: flex;
@@ -62,14 +64,19 @@ export default function SignIn() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    dispatch(loginStart());
     try {
       const res = await API.post("/auth/signin", { name, password });
       console.log("AUTHHH", res.data);
+
+      dispatch(loginSuccess(res.data));
+      console.log("AUTHHH22", res.data);
     } catch (error) {
-      console.log(error);
+      dispatch(loginFailure());
     }
   };
 
