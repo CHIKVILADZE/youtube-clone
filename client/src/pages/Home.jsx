@@ -16,7 +16,7 @@ export default function Home({ type }) {
     const fetchVideos = async () => {
       const res = await API.get(`/videos/${type}`);
       setVideos(res.data);
-      console.log(videos);
+      console.log("videos", videos);
     };
     fetchVideos();
   }, [type]);

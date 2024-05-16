@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { format } from "timeago.js";
+import API from "../utils/API";
 
 const Container = styled.div`
   width: ${({ type }) => type !== "sm" && "360px"};
@@ -54,18 +55,26 @@ const Info = styled.div`
 `;
 
 export default function Card({ type, video }) {
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchChannel = async () => {
+      const res = await API.get(`/users/find/${video.userId}`);
+      setChannel(res.data);
+      console.log("channel", channel);
+    };
+    fetchChannel();
+  }, [video.userId]);
+
   return (
     <Link to="/video/test" style={{ textDecoration: "none" }}>
       <Container type={type}>
         <Img type={type} src={video.imgUrl} />
         <Details type={type}>
-          <ChannelImg
-            type={type}
-            src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4="
-          />
+          <ChannelImg type={type} src={channel ? channel.img : ""} />
           <Text>
             <Title>{video.title}</Title>
-            <ChannelName>Chikvila</ChannelName>
+            <ChannelName>{channel ? channel.name : ""}</ChannelName>{" "}
             <Info>
               {video.views} views • {format(video.createdAt)}
             </Info>
