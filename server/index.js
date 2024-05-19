@@ -30,8 +30,8 @@ app.use(
   })
 );
 
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
 app.use("/api/users", userRoute);
 app.use("/api/comments", commentRoute);
 app.use("/api/videos", videoRoute);
