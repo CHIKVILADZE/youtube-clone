@@ -49,7 +49,7 @@ export const deleteVideo = async (req, res, next) => {
 export const getVideo = async (req, res, next) => {
   try {
     const video = await Video.findById(req.params.id);
-    req.status(200).json(video);
+    res.status(200).json(video);
   } catch (err) {
     next(err);
   }
@@ -60,7 +60,7 @@ export const addView = async (req, res, next) => {
     await Video.findById(req.params.id, {
       $inc: { views: 1 },
     });
-    req.status(200).json("The view has been increased");
+    res.status(200).json("The view has been increased");
   } catch (err) {
     next(err);
   }

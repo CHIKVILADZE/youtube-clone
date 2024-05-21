@@ -9,6 +9,8 @@ import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { format } from "timeago.js";
+import API from "../utils/API";
+import { fetchSuccess } from "../redux/videoSlice";
 
 const Container = styled.div`
   display: flex;
@@ -112,7 +114,6 @@ const Description = styled.p`
 export default function Video() {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
-
   const dispatch = useDispatch();
 
   const path = useLocation().pathname.split("/")[2];
@@ -122,14 +123,18 @@ export default function Video() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const videoRes = await API.get(`/videos/find/${path}`);
-        const channelRes = await API.get(`/users/find/${videoRes.userId}`);
+        const videoRes = await axios.get(`/videos/find/${path}`);
+        const channelRes = await axios.get(
+          `/users/find/${videoRes.data.userId}`
+        );
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
       } catch (err) {}
     };
     fetchData();
   }, [path, dispatch]);
+
+  console.log("current Video", currentVideo);
 
   return (
     <Container>
@@ -146,14 +151,14 @@ export default function Video() {
             allowFullScreen
           ></iframe>
         </VideoWrapper>
-        <Title>{currentVideo?.title}</Title>
+        <Title>{currentVideo.title}</Title>
         <Details>
           <Info>
-            {currentVideo?.views} views • {format(currentVideo?.createdAt)}
+            {currentVideo.views} views • {format(currentVideo.createdAt)}
           </Info>
           <Buttons>
             <Button>
-              <ThumbUpIcon /> {currentVideo?.likes?.length}
+              <ThumbUpIcon /> {currentVideo.likes?.length}
             </Button>
             <Button>
               <ThumbDownIcon />
@@ -176,7 +181,7 @@ export default function Video() {
             <ChannelDetail>
               <ChannelName>{channel.name}</ChannelName>
               <ChannelCounter>{channel.subscribers} Subscribers</ChannelCounter>
-              <Description>{currentVideo?.desc}</Description>
+              <Description>{currentVideo.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe>Subscribe</Subscribe>
