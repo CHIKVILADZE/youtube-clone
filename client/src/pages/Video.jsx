@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
@@ -6,6 +6,9 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import Comments from "../components/Comments";
 import Card from "../components/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { format } from "timeago.js";
 
 const Container = styled.div`
   display: flex;
@@ -107,6 +110,27 @@ const Description = styled.p`
 `;
 
 export default function Video() {
+  const { currentUser } = useSelector((state) => state.user);
+  const { currentVideo } = useSelector((state) => state.video);
+
+  const dispatch = useDispatch();
+
+  const path = useLocation().pathname.split("/")[2];
+
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await API.get(`/videos/find/${path}`);
+        const channelRes = await API.get(`/users/find/${videoRes.userId}`);
+        setChannel(channelRes.data);
+        dispatch(fetchSuccess(videoRes.data));
+      } catch (err) {}
+    };
+    fetchData();
+  }, [path, dispatch]);
+
   return (
     <Container>
       <Content>
@@ -122,12 +146,14 @@ export default function Video() {
             allowFullScreen
           ></iframe>
         </VideoWrapper>
-        <Title>Test Video</Title>
+        <Title>{currentVideo?.title}</Title>
         <Details>
-          <Info>3, 523,642 views • Jun 22, 2024</Info>
+          <Info>
+            {currentVideo?.views} views • {format(currentVideo?.createdAt)}
+          </Info>
           <Buttons>
             <Button>
-              <ThumbUpIcon /> 123{" "}
+              <ThumbUpIcon /> {currentVideo?.likes?.length}
             </Button>
             <Button>
               <ThumbDownIcon />
@@ -146,16 +172,11 @@ export default function Video() {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4=" />
+            <Image src={channel.img} />
             <ChannelDetail>
-              <ChannelName>Chikvila Dev</ChannelName>
-              <ChannelCounter>200K Subscribers</ChannelCounter>
-              <Description>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint
-                minus porro ipsam unde autem qui et blanditiis aspernatur quod
-                consectetur accusantium, ipsum eius. Fugiat natus sit suscipit
-                odio earum veniam!
-              </Description>
+              <ChannelName>{channel.name}</ChannelName>
+              <ChannelCounter>{channel.subscribers} Subscribers</ChannelCounter>
+              <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe>Subscribe</Subscribe>
@@ -163,7 +184,7 @@ export default function Video() {
         <Hr />
         <Comments />
       </Content>
-      <Recoomendations>
+      {/* <Recoomendations>
         <Card type="sm" />
         <Card type="sm" />
         <Card type="sm" />
@@ -175,7 +196,7 @@ export default function Video() {
         <Card type="sm" />
         <Card type="sm" />
         <Card type="sm" />
-      </Recoomendations>
+      </Recoomendations> */}
     </Container>
   );
 }
