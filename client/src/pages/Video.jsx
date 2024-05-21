@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
+import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
 import ReplyIcon from "@mui/icons-material/Reply";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import Comments from "../components/Comments";
@@ -10,7 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { format } from "timeago.js";
 import API from "../utils/API";
-import { fetchSuccess } from "../redux/videoSlice";
+import { fetchSuccess, like, dislike } from "../redux/videoSlice";
+import { inputClasses } from "@mui/material";
 
 const Container = styled.div`
   display: flex;
@@ -123,18 +126,28 @@ export default function Video() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const videoRes = await axios.get(`/videos/find/${path}`);
-        const channelRes = await axios.get(
-          `/users/find/${videoRes.data.userId}`
-        );
+        const videoRes = await API.get(`/videos/find/${path}`);
+        const channelRes = await API.get(`/users/find/${videoRes.data.userId}`);
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
-      } catch (err) {}
+      } catch (err) {
+        console.log(err);
+      }
     };
     fetchData();
   }, [path, dispatch]);
 
   console.log("current Video", currentVideo);
+
+  const handleLike = async () => {
+    await API.put(`/users/like/${currentVideo._id}`);
+    dispatch(like(currentUser._id));
+  };
+
+  const handleDislike = async () => {
+    await API.put(`/users/dislike/${currentVideo._id}`);
+    dispatch(dislike(currentUser._id));
+  };
 
   return (
     <Container>
@@ -151,17 +164,29 @@ export default function Video() {
             allowFullScreen
           ></iframe>
         </VideoWrapper>
-        <Title>{currentVideo.title}</Title>
+        <Title>{currentVideo && currentVideo.title}</Title>
         <Details>
           <Info>
-            {currentVideo.views} views • {format(currentVideo.createdAt)}
+            {currentVideo && currentVideo.views} views •{" "}
+            {format(currentVideo && currentVideo.createdAt)}
           </Info>
           <Buttons>
-            <Button>
-              <ThumbUpIcon /> {currentVideo.likes?.length}
+            <Button onClick={handleLike}>
+              {currentVideo &&
+              currentVideo.likes?.includes(currentUser?._id) ? (
+                <ThumbUpIcon />
+              ) : (
+                <ThumbUpAltOutlinedIcon />
+              )}{" "}
+              {currentVideo && currentVideo.likes?.length}
             </Button>
-            <Button>
-              <ThumbDownIcon />
+            <Button onClick={handleDislike}>
+              {currentVideo &&
+              currentVideo.dislikes?.includes(currentUser?._id) ? (
+                <ThumbDownIcon />
+              ) : (
+                <ThumbDownAltOutlinedIcon />
+              )}{" "}
               Dislike
             </Button>
             <Button>
@@ -177,11 +202,13 @@ export default function Video() {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src={channel.img} />
+            <Image src={channel && channel.img} />
             <ChannelDetail>
-              <ChannelName>{channel.name}</ChannelName>
-              <ChannelCounter>{channel.subscribers} Subscribers</ChannelCounter>
-              <Description>{currentVideo.desc}</Description>
+              <ChannelName>{channel && channel.name}</ChannelName>
+              <ChannelCounter>
+                {channel && channel.subscribers} Subscribers
+              </ChannelCounter>
+              <Description>{currentVideo && currentVideo.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe>Subscribe</Subscribe>
