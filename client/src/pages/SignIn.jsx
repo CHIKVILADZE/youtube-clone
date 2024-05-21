@@ -87,18 +87,17 @@ export default function SignIn() {
 
     signInWithPopup(auth, provider)
       .then((result) => {
-        axios
-          .post("/auth/google", {
-            name: result.user.displayName,
-            email: result.user.email,
-            img: result.user.photoURL,
-          })
-          .then((res) => {
-            dispatch(loginSuccess(res.data));
-          });
+        API.post("/auth/google", {
+          name: result.user.displayName,
+          email: result.user.email,
+          img: result.user.photoURL,
+        }).then((res) => {
+          dispatch(loginSuccess(res.data));
+        });
       })
       .catch((err) => {
         dispatch(loginFailure());
+        console.log("errrrr", err);
       });
   };
 
