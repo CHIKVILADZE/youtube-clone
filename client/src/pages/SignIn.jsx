@@ -3,6 +3,7 @@ import styled from "styled-components";
 import API from "../utils/API";
 import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
+import { auth, provider } from "../firebase";
 
 const Container = styled.div`
   display: flex;
