@@ -14,6 +14,7 @@ import { format } from "timeago.js";
 import API from "../utils/API";
 import { fetchSuccess, like, dislike } from "../redux/videoSlice";
 import { inputClasses } from "@mui/material";
+import { subscription } from "../redux/userSlice";
 
 const Container = styled.div`
   display: flex;
@@ -131,13 +132,11 @@ export default function Video() {
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
       } catch (err) {
-        console.log(err);
+        console.log("ERRRRR", err);
       }
     };
     fetchData();
   }, [path, dispatch]);
-
-  console.log("current Video", currentVideo);
 
   const handleLike = async () => {
     await API.put(`/users/like/${currentVideo._id}`);
@@ -147,6 +146,13 @@ export default function Video() {
   const handleDislike = async () => {
     await API.put(`/users/dislike/${currentVideo._id}`);
     dispatch(dislike(currentUser._id));
+  };
+
+  const handleSubscribe = async () => {
+    currentUser.subscribedUsers.includes(channel?._id)
+      ? await API.put(`/users/unsub/${channel?._id}`)
+      : await API.put(`/users/sub/${channel?._id}`);
+    dispatch(subscription(channel._id));
   };
 
   return (
@@ -211,7 +217,11 @@ export default function Video() {
               <Description>{currentVideo && currentVideo.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe>Subscribe</Subscribe>
+          <Subscribe onClick={handleSubscribe}>
+            {currentUser.subscribedUsers?.includes(channel?._id)
+              ? "SUBSCRIBED"
+              : "SUBSCRIBE"}
+          </Subscribe>
         </Channel>
         <Hr />
         <Comments />
