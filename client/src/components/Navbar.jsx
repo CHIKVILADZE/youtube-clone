@@ -3,8 +3,10 @@ import styled from "styled-components";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import VideoCallIcon from "@mui/icons-material/VideoCall";
 import SearchIcon from "@mui/icons-material/Search";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/userSlice"; // Import the logout action from your user slice
 
 const Container = styled.div`
   position: sticky;
@@ -71,7 +73,11 @@ const Avatar = styled.img`
 
 function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
-  console.log("currentuser", currentUser);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <Container>
@@ -83,8 +89,11 @@ function Navbar() {
         {currentUser ? (
           <User>
             <VideoCallIcon />
-            <Avatar />
+            <Avatar src={currentUser.img} />
             {currentUser.name}
+            <Button onClick={handleLogout}>
+              <LogoutIcon /> Logout
+            </Button>
           </User>
         ) : (
           <Link to="signin" style={{ textDecoration: "none" }}>
