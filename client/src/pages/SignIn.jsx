@@ -4,6 +4,7 @@ import API from "../utils/API";
 import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const Container = styled.div`
   display: flex;
@@ -81,6 +82,26 @@ export default function SignIn() {
     }
   };
 
+  const signInWithGoogle = () => {
+    dispatch(loginStart());
+
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        axios
+          .post("/auth/google", {
+            name: result.user.displayName,
+            email: result.user.email,
+            img: result.user.photoURL,
+          })
+          .then((res) => {
+            dispatch(loginSuccess(res.data));
+          });
+      })
+      .catch((err) => {
+        dispatch(loginFailure());
+      });
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -97,6 +118,7 @@ export default function SignIn() {
         />
         <Button onClick={handleLogin}>Sign In</Button>
         <Title>or</Title>
+        <Button onClick={signInWithGoogle}>Sign in with Google</Button>
         <SubTitle> to continue on ChikvilaTube</SubTitle>
         <Input
           placeholder="username"
