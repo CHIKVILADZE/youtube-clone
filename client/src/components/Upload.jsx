@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   getStorage,
@@ -6,6 +6,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import app from "../firebase.js";
 
 const Container = styled.div`
   width: 100%;
@@ -88,7 +89,7 @@ export default function Upload({ setOpen }) {
   };
 
   const uploadFile = (file, urlType) => {
-    const storage = getStorage();
+    const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
     const storageRef = ref(storage, fileName);
 
@@ -99,7 +100,9 @@ export default function Upload({ setOpen }) {
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        urlType === "imgUrl" ? setImgPerc(progress) : setVideoPerc(progress);
+        urlType === "imgUrl"
+          ? setImgPerc(Math.round(progress))
+          : setVideoPerc(Math.round(progress));
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -112,23 +115,24 @@ export default function Upload({ setOpen }) {
         }
       },
       (error) => {
-        // Handle unsuccessful uploads
+        console.error("Upload failed:", error);
       },
       () => {
-        // Handle successful uploads on complete
-        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
+          setInputs((prev) => {
+            return { ...prev, [urlType]: downloadURL };
+          });
         });
       }
     );
   };
 
   useEffect(() => {
-    uploadFile(vide);
+    video && uploadFile(video, "videoUrl");
   }, [video]);
+
   useEffect(() => {
-    uploadFile(img);
+    img && uploadFile(img, "imgUrl");
   }, [img]);
 
   return (
@@ -137,30 +141,42 @@ export default function Upload({ setOpen }) {
         <Close onClick={() => setOpen(false)}>X</Close>
         <Title>Upload a New Video</Title>
         <Label>Video:</Label>
-        <Input
-          type="file"
-          accept="/video/*"
-          onChange={(e) => setVideo(e.target.files[0])}
-        />
+        {videoPerc > 0 ? (
+          "Uploading: " + videoPerc + "%"
+        ) : (
+          <Input
+            type="file"
+            accept="video/*"
+            onChange={(e) => setVideo(e.target.files[0])}
+          />
+        )}
         <Input
           type="text"
           placeholder="Title"
           name="title"
           onChange={handleChange}
         />
-        <Desc placeholder="Description" rows={8} onChange={handleChange} />
+        <Desc
+          placeholder="Description"
+          rows={8}
+          name="desc"
+          onChange={handleChange}
+        />
         <Input
           type="text"
-          name="desc"
           placeholder="Separate the tags with commas."
           onChange={handleTags}
         />
         <Label>Image:</Label>
-        <Input
-          type="file"
-          accept="/image/*"
-          onChange={(e) => setImg(e.target.files[0])}
-        />
+        {imgPerc > 0 ? (
+          "Uploading: " + imgPerc + "%"
+        ) : (
+          <Input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImg(e.target.files[0])}
+          />
+        )}
         <Button>Upload</Button>
       </Wrapper>
     </Container>
