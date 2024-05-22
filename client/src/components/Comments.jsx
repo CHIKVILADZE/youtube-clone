@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Comment from "./Comment";
+import API from "../utils/API";
+import { useSelector } from "react-redux";
 
 const Container = styled.div``;
 const NewComment = styled.div`
@@ -17,26 +19,39 @@ const Avatar = styled.img`
 const Input = styled.input`
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.soft};
+  color: ${({ theme }) => theme.text};
+
   background-color: transparent;
   outline: none;
   padding: 5px;
   width: 100%;
 `;
 
-export default function Comments() {
+export default function Comments({ videoId }) {
+  const [comments, setComments] = useState([]);
+  const { currentUser } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await API.get(`/comments/${videoId}`);
+        setComments(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchComments();
+  }, [videoId]);
+
   return (
     <Container>
       <NewComment>
-        <Avatar src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4=" />
+        <Avatar src={currentUser.img} />
         <Input placeholder="Add a comment ..." />
       </NewComment>
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
+      {comments.map((comment) => (
+        <Comment key={comment._id} comment={comment} />
+      ))}
     </Container>
   );
 }

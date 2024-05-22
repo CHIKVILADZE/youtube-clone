@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import API from "../utils/API";
 
 const Container = styled.div`
   display: flex;
@@ -35,22 +36,27 @@ const Text = styled.span`
   font-size: 14px;
 `;
 
-export default function Comment() {
+export default function Comment({ comment }) {
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchComment = async () => {
+      const res = await API.get(`/users/find/${comment.userId}`);
+      setChannel(res.data);
+    };
+    fetchComment();
+  }, [comment, userId]);
+
   return (
     <Container>
       {" "}
-      <Avatar src="https://media.istockphoto.com/id/1137371900/vector/english-bulldog-wearing-sunglasses-isolated-outlined-vector-illustration.jpg?s=612x612&w=0&k=20&c=OMvkioGZ81HmCnxJ9IAYUBbJOx-WQz60RK9NoVQIXP4=" />
+      <Avatar src={channel.img} />
       <Details>
         <Name>
-          Giorgi Chikviladze
+          {channel.name}
           <Date>1 day ago</Date>
         </Name>
-        <Text>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae
-          maxime necessitatibus aspernatur eaque nisi modi doloribus placeat
-          explicabo sequi ipsa expedita beatae quae, minima sint harum. Ullam
-          expedita doloribus commodi!
-        </Text>
+        <Text>{comment.desc}</Text>
       </Details>
     </Container>
   );

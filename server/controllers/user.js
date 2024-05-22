@@ -53,7 +53,6 @@ export const subscribeUser = async (req, res, next) => {
     });
     res.status(200).json("Subscription successful");
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
