@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import VideoCallIcon from "@mui/icons-material/VideoCall";
@@ -7,6 +7,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice"; // Import the logout action from your user slice
+import Upload from "./Upload";
 
 const Container = styled.div`
   position: sticky;
@@ -74,36 +75,43 @@ const Avatar = styled.img`
 function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch(logout());
   };
 
   return (
-    <Container>
-      <Wrapper>
-        <Search>
-          <Input placeholder="Search" />
-          <SearchIcon />
-        </Search>
-        {currentUser ? (
-          <User>
-            <VideoCallIcon />
-            <Avatar src={currentUser.img} />
-            {currentUser.name}
-            <Button onClick={handleLogout}>
-              <LogoutIcon /> Logout
-            </Button>
-          </User>
-        ) : (
-          <Link to="signin" style={{ textDecoration: "none" }}>
-            <Button>
-              <AccountCircleOutlinedIcon /> Sign In
-            </Button>
-          </Link>
-        )}
-      </Wrapper>
-    </Container>
+    <>
+      <Container>
+        <Wrapper>
+          <Search>
+            <Input placeholder="Search" />
+            <SearchIcon />
+          </Search>
+          {currentUser ? (
+            <User>
+              <VideoCallIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => setOpen(true)}
+              />
+              <Avatar src={currentUser.img} />
+              {currentUser.name}
+              <Button onClick={handleLogout}>
+                <LogoutIcon /> Logout
+              </Button>
+            </User>
+          ) : (
+            <Link to="signin" style={{ textDecoration: "none" }}>
+              <Button>
+                <AccountCircleOutlinedIcon /> Sign In
+              </Button>
+            </Link>
+          )}
+        </Wrapper>
+      </Container>
+      {open && <Upload setOpen={setOpen} />}
+    </>
   );
 }
 
