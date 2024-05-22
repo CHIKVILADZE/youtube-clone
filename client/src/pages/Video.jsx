@@ -115,6 +115,12 @@ const Description = styled.p`
   font-size: 14px;
 `;
 
+const VideoFrame = styled.video`
+  max-height: 720px;
+  width: 100%;
+  object-fit: cover;
+`;
+
 export default function Video() {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
@@ -159,16 +165,7 @@ export default function Video() {
     <Container>
       <Content>
         <VideoWrapper>
-          <iframe
-            width="100%"
-            height="720"
-            src="https://www.youtube.com/embed/B5AowmRgHV0?list=RDGMEMHDXYb1_DDSgDsobPsOFxpAVMB5AowmRgHV0"
-            title="KayaKata - Massaia"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          ></iframe>
+          <VideoFrame src={currentVideo.videoURL} />
         </VideoWrapper>
         <Title>{currentVideo && currentVideo.title}</Title>
         <Details>
@@ -218,7 +215,7 @@ export default function Video() {
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={handleSubscribe}>
-            {currentUser.subscribedUsers?.includes(channel?._id)
+            {currentUser && currentUser.subscribedUsers.includes(channel?._id)
               ? "SUBSCRIBED"
               : "SUBSCRIBE"}
           </Subscribe>
