@@ -15,6 +15,7 @@ import API from "../utils/API";
 import { fetchSuccess, like, dislike } from "../redux/videoSlice";
 import { inputClasses } from "@mui/material";
 import { subscription } from "../redux/userSlice";
+import Reccomendations from "../components/Reccomendations";
 
 const Container = styled.div`
   display: flex;
@@ -35,10 +36,6 @@ const Title = styled.h1`
   margin-top: 20px;
   margin-bottom: 10px;
   color: ${({ theme }) => theme.text};
-`;
-
-const Recoomendations = styled.div`
-  flex: 2;
 `;
 
 const Details = styled.div`
@@ -223,19 +220,7 @@ export default function Video() {
         <Hr />
         <Comments videoId={currentVideo._id} />
       </Content>
-      {/* <Recoomendations>
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-      </Recoomendations> */}
+      <Reccomendations tags={currentVideo.tags} />
     </Container>
   );
 }
