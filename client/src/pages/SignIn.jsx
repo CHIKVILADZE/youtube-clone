@@ -129,7 +129,6 @@ export default function SignIn() {
     <Container>
       <Wrapper>
         <Title>Sign In</Title>
-        <SubTitle> to continue on ChikvilaTube</SubTitle>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <Input
           placeholder="username"
@@ -143,7 +142,6 @@ export default function SignIn() {
         <Button onClick={handleLogin}>Sign In</Button>
         <Title>or</Title>
         <Button onClick={signInWithGoogle}>Sign in with Google</Button>
-        <SubTitle> to continue on ChikvilaTube</SubTitle>
         <Input
           placeholder="username"
           onChange={(e) => setName(e.target.value)}
