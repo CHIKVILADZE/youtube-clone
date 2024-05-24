@@ -64,7 +64,6 @@ export default function Card({ type, video }) {
     };
     fetchChannel();
   }, [video.userId]);
-  console.log("channel", channel?.img);
 
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>

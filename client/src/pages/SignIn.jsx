@@ -63,10 +63,15 @@ const Link = styled.span`
   margin-left: 30px;
 `;
 
+const ErrorMessage = styled.div`
+  color: red;
+`;
+
 export default function SignIn() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -75,6 +80,23 @@ export default function SignIn() {
     dispatch(loginStart());
     try {
       const res = await API.post("/auth/signin", { name, password });
+      console.log("AUTHHH", res.data);
+      dispatch(loginSuccess(res.data));
+      navigate("/");
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setError("User not found");
+      } else {
+        dispatch(loginFailure());
+      }
+    }
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    dispatch(loginStart());
+    try {
+      const res = await API.post("/auth/signup", { name, email, password });
       console.log("AUTHHH", res.data);
       dispatch(loginSuccess(res.data));
       navigate("/");
@@ -108,6 +130,7 @@ export default function SignIn() {
       <Wrapper>
         <Title>Sign In</Title>
         <SubTitle> to continue on ChikvilaTube</SubTitle>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <Input
           placeholder="username"
           onChange={(e) => setName(e.target.value)}
@@ -131,7 +154,7 @@ export default function SignIn() {
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button>Sign Up</Button>
+        <Button onClick={handleSignUp}>Sign Up</Button>
       </Wrapper>
       <More>
         English (USA)
