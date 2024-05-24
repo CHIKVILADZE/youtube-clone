@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import API from "../utils/API";
 
@@ -45,7 +45,7 @@ export default function Comment({ comment }) {
       setChannel(res.data);
     };
     fetchComment();
-  }, [comment, userId]);
+  }, [comment.userId]);
 
   return (
     <Container>

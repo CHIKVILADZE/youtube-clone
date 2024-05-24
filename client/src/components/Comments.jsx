@@ -17,6 +17,7 @@ const Avatar = styled.img`
   height: 50px;
   border-radius: 50%;
   border: 2px solid black;
+  object-fit: cover;
 `;
 
 const Input = styled.input`
@@ -30,15 +31,16 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  padding: 5px 10px;
-  background-color: ${({ theme }) => theme.bgLighter};
-  color: ${({ theme }) => theme.textSoft};
+  padding: 10px 15px;
+  background-color: #8484ff;
+  color: white;
+  font-size: 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.bg};
+    background-color: #a8a8ff;
   }
 `;
 
@@ -62,11 +64,15 @@ export default function Comments({ videoId }) {
   const handleAddComment = async () => {
     if (newComment.trim()) {
       try {
-        const res = await API.post(`/comments`, {
-          videoId,
-          desc: newComment,
-          userId: currentUser._id,
-        });
+        const res = await API.post(
+          "/comments",
+          {
+            videoId,
+            desc: newComment,
+          },
+          { withCredentials: true }
+        );
+        console.log("res.data", res.data);
         setComments([res.data, ...comments]);
         setNewComment("");
       } catch (error) {
@@ -84,7 +90,7 @@ export default function Comments({ videoId }) {
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
-        <Button onClick={handleAddComment}>Add a comment</Button>
+        <Button onClick={handleAddComment}>Add </Button>
       </NewComment>
       {comments.map((comment) => (
         <Comment key={comment._id} comment={comment} />
