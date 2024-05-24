@@ -4,7 +4,7 @@ import Menu from "./components/Menu";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { darkTheme, lightTheme } from "./utils/Theme";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
@@ -33,12 +33,27 @@ const Wrapper = styled.div``;
 function App() {
   const [darkMode, setDarkMode] = useState(true);
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("darkMode");
+    if (savedTheme) {
+      setDarkMode(JSON.parse(savedTheme));
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    setDarkMode((prev) => {
+      const newTheme = !prev;
+      localStorage.setItem("darkMode", newTheme);
+      return newTheme;
+    });
+  };
+
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
         <BrowserRouter>
           <GlobalStyle />
-          <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Menu darkMode={darkMode} setDarkMode={toggleTheme} />
           <Main>
             <Navbar />
             <Wrapper>
