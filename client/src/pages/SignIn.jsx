@@ -76,9 +76,8 @@ export default function SignIn() {
     try {
       const res = await API.post("/auth/signin", { name, password });
       console.log("AUTHHH", res.data);
-
       dispatch(loginSuccess(res.data));
-      console.log("AUTHHH22", res.data);
+      navigate("/");
     } catch (error) {
       dispatch(loginFailure());
     }

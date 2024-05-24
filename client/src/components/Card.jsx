@@ -61,15 +61,15 @@ export default function Card({ type, video }) {
     const fetchChannel = async () => {
       const res = await API.get(`/users/find/${video.userId}`);
       setChannel(res.data);
-      console.log("channel", channel);
     };
     fetchChannel();
   }, [video.userId]);
+  console.log("video", video);
 
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
-        <Img type={type} src={video.imgUrl} />
+        <Img type={type} src={video.imgURL} />
         <Details type={type}>
           <ChannelImg type={type} src={channel ? channel.img : ""} />
           <Text>
