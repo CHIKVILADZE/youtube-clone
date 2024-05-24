@@ -27,7 +27,7 @@ const Details = styled.div`
   flex: 1;
 `;
 
-const ChannelImg = styled.img`
+const ChannelImage = styled.img`
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -64,14 +64,14 @@ export default function Card({ type, video }) {
     };
     fetchChannel();
   }, [video.userId]);
-  console.log("video", video);
+  console.log("channel", channel?.img);
 
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
         <Img type={type} src={video.imgURL} />
         <Details type={type}>
-          <ChannelImg type={type} src={channel ? channel.img : ""} />
+          <ChannelImage type={type} src={channel?.img} />{" "}
           <Text>
             <Title>{video.title}</Title>
             <ChannelName>{channel ? channel.name : ""}</ChannelName>{" "}

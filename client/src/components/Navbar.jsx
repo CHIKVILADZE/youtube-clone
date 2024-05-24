@@ -6,7 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../redux/userSlice"; // Import the logout action from your user slice
+import { logout } from "../redux/userSlice";
 import Upload from "./Upload";
 
 const Container = styled.div`
@@ -81,8 +81,10 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const navigate = useNavigate();
+
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/signin");
   };
 
   return (
