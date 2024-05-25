@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:8800/api",
+  baseURL: "https://youtube-clone-1i99.onrender.com/api",
   withCredentials: true,
 });
 
