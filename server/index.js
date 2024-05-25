@@ -25,7 +25,7 @@ const connect = () => {
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://youtube-clone-liart-chi.vercel.app",
     credentials: true,
   })
 );
