@@ -162,7 +162,7 @@ export default function Video() {
     <Container>
       <Content>
         <VideoWrapper>
-          <VideoFrame src={currentVideo.videoURL} controls />
+          <VideoFrame src={currentVideo?.videoURL} controls />
         </VideoWrapper>
         <Title>{currentVideo && currentVideo.title}</Title>
         <Details>
