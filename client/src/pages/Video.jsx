@@ -7,13 +7,11 @@ import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
 import ReplyIcon from "@mui/icons-material/Reply";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import Comments from "../components/Comments";
-import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { format } from "timeago.js";
 import API from "../utils/API";
 import { fetchSuccess, like, dislike } from "../redux/videoSlice";
-import { inputClasses } from "@mui/material";
 import { subscription } from "../redux/userSlice";
 import Reccomendations from "../components/Reccomendations";
 
@@ -22,6 +20,7 @@ const Container = styled.div`
   gap: 24px;
   margin-left: 10px;
 `;
+
 const Content = styled.div`
   flex: 5;
 `;
@@ -125,7 +124,9 @@ export default function Video() {
 
   const path = useLocation().pathname.split("/")[2];
 
-  const [channel, setChannel] = useState({});
+  const [channel, setChannel] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -134,29 +135,40 @@ export default function Video() {
         const channelRes = await API.get(`/users/find/${videoRes.data.userId}`);
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
+        setLoading(false);
       } catch (err) {
-        console.log("ERRRRR", err);
+        setError(err);
+        setLoading(false);
       }
     };
     fetchData();
   }, [path, dispatch]);
 
   const handleLike = async () => {
-    await API.put(`/users/like/${currentVideo._id}`);
-    dispatch(like(currentUser._id));
+    if (currentVideo && currentVideo._id) {
+      await API.put(`/users/like/${currentVideo._id}`);
+      dispatch(like(currentUser._id));
+    }
   };
 
   const handleDislike = async () => {
-    await API.put(`/users/dislike/${currentVideo._id}`);
-    dispatch(dislike(currentUser._id));
+    if (currentVideo && currentVideo._id) {
+      await API.put(`/users/dislike/${currentVideo._id}`);
+      dispatch(dislike(currentUser._id));
+    }
   };
 
   const handleSubscribe = async () => {
-    currentUser.subscribedUsers.includes(channel?._id)
-      ? await API.put(`/users/unsub/${channel?._id}`)
-      : await API.put(`/users/sub/${channel?._id}`);
-    dispatch(subscription(channel._id));
+    if (currentUser && channel) {
+      currentUser.subscribedUsers.includes(channel._id)
+        ? await API.put(`/users/unsub/${channel._id}`)
+        : await API.put(`/users/sub/${channel._id}`);
+      dispatch(subscription(channel._id));
+    }
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading video: {error.message}</div>;
 
   return (
     <Container>
@@ -164,25 +176,22 @@ export default function Video() {
         <VideoWrapper>
           <VideoFrame src={currentVideo?.videoURL} controls />
         </VideoWrapper>
-        <Title>{currentVideo && currentVideo.title}</Title>
+        <Title>{currentVideo?.title}</Title>
         <Details>
           <Info>
-            {currentVideo && currentVideo.views} views •{" "}
-            {format(currentVideo && currentVideo.createdAt)}
+            {currentVideo?.views} views • {format(currentVideo?.createdAt)}
           </Info>
           <Buttons>
             <Button onClick={handleLike}>
-              {currentVideo &&
-              currentVideo.likes?.includes(currentUser?._id) ? (
+              {currentVideo?.likes?.includes(currentUser?._id) ? (
                 <ThumbUpIcon />
               ) : (
                 <ThumbUpAltOutlinedIcon />
               )}{" "}
-              {currentVideo && currentVideo.likes?.length}
+              {currentVideo?.likes?.length}
             </Button>
             <Button onClick={handleDislike}>
-              {currentVideo &&
-              currentVideo.dislikes?.includes(currentUser?._id) ? (
+              {currentVideo?.dislikes?.includes(currentUser?._id) ? (
                 <ThumbDownIcon />
               ) : (
                 <ThumbDownAltOutlinedIcon />
@@ -202,25 +211,25 @@ export default function Video() {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src={channel && channel.img} />
+            <Image src={channel?.img} />
             <ChannelDetail>
-              <ChannelName>{channel && channel.name}</ChannelName>
+              <ChannelName>{channel?.name}</ChannelName>
               <ChannelCounter>
-                {channel && channel.subscribers} Subscribers
+                {channel?.subscribers} Subscribers
               </ChannelCounter>
-              <Description>{currentVideo && currentVideo.desc}</Description>
+              <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={handleSubscribe}>
-            {currentUser && currentUser.subscribedUsers.includes(channel?._id)
+            {currentUser?.subscribedUsers.includes(channel?._id)
               ? "SUBSCRIBED"
               : "SUBSCRIBE"}
           </Subscribe>
         </Channel>
         <Hr />
-        <Comments videoId={currentVideo._id} />
+        <Comments videoId={currentVideo?._id} />
       </Content>
-      <Reccomendations tags={currentVideo.tags} />
+      <Reccomendations tags={currentVideo?.tags} />
     </Container>
   );
 }
