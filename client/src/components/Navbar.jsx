@@ -87,8 +87,6 @@ function Navbar() {
     navigate("/signin");
   };
 
-  console.log("currentUser", currentUser);
-
   return (
     <>
       <Container>

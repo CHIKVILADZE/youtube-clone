@@ -72,7 +72,6 @@ export default function Comments({ videoId }) {
           },
           { withCredentials: true }
         );
-        console.log("res.data", res.data);
         setComments([res.data, ...comments]);
         setNewComment("");
       } catch (error) {

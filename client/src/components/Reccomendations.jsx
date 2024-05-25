@@ -16,7 +16,7 @@ export default function Reccomendations({ tags }) {
       setVideos(res.data);
     };
     fetchVideos();
-  }, []);
+  }, [tags]);
 
   return (
     <Container>

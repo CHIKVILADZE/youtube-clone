@@ -80,7 +80,6 @@ export default function SignIn() {
     dispatch(loginStart());
     try {
       const res = await API.post("/auth/signin", { name, password });
-      console.log("AUTHHH", res.data);
       dispatch(loginSuccess(res.data));
       navigate("/");
     } catch (error) {
@@ -97,7 +96,6 @@ export default function SignIn() {
     dispatch(loginStart());
     try {
       const res = await API.post("/auth/signup", { name, email, password });
-      console.log("AUTHHH", res.data);
       dispatch(loginSuccess(res.data));
       navigate("/");
     } catch (error) {
@@ -121,7 +119,6 @@ export default function SignIn() {
       })
       .catch((err) => {
         dispatch(loginFailure());
-        console.log("errrrr", err);
       });
   };
 
