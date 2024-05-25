@@ -31,8 +31,8 @@ export const signin = async (req, res, next) => {
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // Ensure this is set based on your environment
-        sameSite: "None", // Important for cross-origin requests
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "None",
       })
       .status(200)
       .json(others);
@@ -49,6 +49,8 @@ export const googleAuth = async (req, res, next) => {
       res
         .cookie("access_token", token, {
           httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "None",
         })
         .status(200)
         .json(user._doc);
